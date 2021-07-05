@@ -1,0 +1,72 @@
+@import '~antd/lib/style/themes/default.less';
+
+* {
+  // font-family: 'helvetica neue', arial, helvetica, 'Hiragino Sans GB', 'STHeiti Light', 'SimSun',
+  //   sans-serif;
+  font-family: 'PingFang SC', Verdana, 'Helvetica Neue', 'Microsoft Yahei', 'Hiragino Sans GB',
+    'Microsoft Sans Serif', 'WenQuanYi Micro Hei', sans-serif;
+}
+
+:global {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .wrapper {
+    height: 100%;
+    min-width: 1220px;
+    min-height: 550px;
+    &-layout {
+      height: 100%;
+      .home-header {
+        width: 100%;
+        height: 56px;
+        padding: 0;
+        z-index: 1;
+      }
+    }
+  }
+
+  .wrapper-layout-body .home-sider {
+    background-color: #22282f;
+    &-menu {
+      background-color: #333b44;
+    }
+  }
+
+  .wrapper-layout-body-content {
+    // height: 100%;
+    overflow: scroll;
+    min-height: 640px;
+    max-width: 100%;
+    min-width: 820px;
+    height: calc(100vh - 56px);
+  }
+
+  .ant-modal-body {
+    max-height: 518px !important;
+    overflow-y: auto;
+  }
+
+  .wrapper .ant-modal-footer {
+    padding: 10px 24px;
+  }
+
+  .ant-spin {
+    color: #1785ec;
+    .ant-spin-dot-item {
+      background-color: #1785ec;
+    }
+  }
+
+  .ant-btn {
+    box-shadow: none !important;
+  }
+
+  .ant-btn-primary {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}

@@ -1,0 +1,279 @@
+@import '~antd/lib/style/themes/default.less';
+
+html,
+body,
+#root-slave {
+  overflow-y: hidden;
+  height: 100%;
+  font-family: "helvetica neue", arial, helvetica, "Hiragino Sans GB", "STHeiti Light", "SimSun", sans-serif;
+}
+
+.colorWeak {
+  filter: invert(80%);
+}
+
+.ant-layout {
+  min-height: 100vh;
+}
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.globalSpin {
+  width: 100%;
+  margin: 40px 0 !important;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+@media (max-width: @screen-xs) {
+  .ant-table {
+    width: 100%;
+    overflow-x: auto;
+    &-thead > tr,
+    &-tbody > tr {
+      > th,
+      > td {
+        white-space: pre;
+        > span {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+/* *******************全局icon配置*********************** */
+:global {
+  @font-face {
+    font-family: 'iconfont';  /* project id 1324746 */
+    src: url('//at.alicdn.com/t/font_1324746_04gi8yhm49u7.eot');
+    src: url('//at.alicdn.com/t/font_1324746_04gi8yhm49u7.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1324746_04gi8yhm49u7.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1324746_04gi8yhm49u7.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1324746_04gi8yhm49u7.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1324746_04gi8yhm49u7.svg#iconfont') format('svg');
+  }
+
+  .anticon::after {
+    font-family: 'iconfont', serif !important;
+    font-size: 14px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* *******************菜单栏自定义图标开始*********************** */
+  // 平安钟
+  .anticon-safe-clock::after {
+    content: '\e610';
+  }
+  // 管理员设置
+  .anticon-manage-setting::after {
+    content: '\e611';
+  }
+  // 公文流转
+  .anticon-text-routing::after {
+    content: '\e612';
+  }
+  // 教育扶贫
+  .anticon-education-love::after {
+    content: '\e613';
+  }
+  // 首页
+  .anticon-custom-home::after {
+    content: '\e614';
+  }
+  // 区县通讯录
+  .anticon-area-address-book::after {
+    content: '\e615';
+  }
+  // 通知管理
+  .anticon-notice-manage::after {
+    content: '\e616';
+  }
+  // 区县招聘
+  .anticon-area-recruit::after {
+    content: '\e617';
+  }
+  // 数据填报
+  .anticon-data-report::after {
+    content: '\e618';
+  }
+  // 满意度调查
+  .anticon-survey-statistics::after {
+    content: '\e619';
+  }
+  // 会议管理
+  .anticon-meeting-manage::after {
+    content: '\e61a';
+  }
+  // 督导专栏
+  .anticon-supervisory::after {
+    content: '\e61b';
+  }
+  // 校园支付
+  .anticon-school-pay::after {
+    content: '\e61c';
+  }
+  // oa办公
+  .anticon-work-oa::after {
+    content: '\e61d';
+  }
+  // 招生管理
+  .anticon-recruit-student::after {
+    content: '\e61e';
+  }
+  // 微官网-01
+  .anticon-micro-website::after {
+    content: '\e61f';
+  }
+  // 工资条-01
+  .anticon-salary-paper::after {
+    content: '\e620';
+  }
+  // 问卷收集-01
+  .anticon-question-survey::after {
+    content: '\e621';
+  }
+
+  /* *******************菜单栏自定义图标结束*********************** */
+
+  /* *******************工作流、数据填报控件模版图标开始*********************** */
+
+  // 单行文本
+  .anticon-mobile-input::after {
+    content: '\e60c';
+  }
+  // 多行文本
+  .anticon-mobile-text-area::after {
+    content: '\e60f';
+  }
+  // 日期
+  .anticon-mobile-date-picker::after {
+    content: '\e707';
+  }
+  // 日期时间
+  .anticon-mobile-date-time-picker::after {
+    content: '\e622';
+  }
+  // 单选选项组
+  .anticon-mobile-radio-group::after {
+    content: '\e623';
+  }
+  // 复选框组
+  .anticon-mobile-check-box-group::after {
+    content: '\e708';
+  }
+  // 下拉框
+  .anticon-mobile-select::after {
+    content: '\e709';
+  }
+  // 下拉搜索框
+  .anticon-mobile-select-search::after {
+    content: '\e709';
+  }
+  // 数字
+  .anticon-mobile-number::after {
+    content: '\e705';
+  }
+  // 分割线
+  .anticon-mobile-divider::after {
+    content: '\e703';
+  }
+  // 图片
+  .anticon-mobile-image-upload::after {
+    content: '\e60e';
+  }
+  // 选人单选
+  .anticon-mobile-select-user-single::after {
+    content: '\e70a';
+  }
+  // 选人多选
+  .anticon-mobile-select-user::after {
+    content: '\e70b';
+  }
+  // 定位组件
+  .anticon-mobile-location::after {
+    content: '\e624';
+  }
+  // 链接组件
+  .anticon-mobile-link::after {
+    content: '\e625';
+  }
+  // 附件组件
+  .anticon-mobile-annex::after {
+    content: '\e626';
+  }
+  // 图片上传组件
+  .anticon-mobile-image-annex::after {
+    content: '\e60e';
+  }
+  // 签名组件
+  .anticon-mobile-image-signature::after {
+    content: '\e627';
+  }
+   // 子表明细
+  .anticon-mobile-sublist::after {
+    content: '\e606';
+  }
+   // 图片单选
+  .anticon-image-radio-group::after {
+    content: '\e62b';
+  }
+   // 图片多选
+   .anticon-image-check-box::after {
+    content: '\e629';
+  }
+   // 填空题
+   .anticon-ques-filling::after {
+    content: '\e62a';
+  }
+   // 打分题
+   .anticon-ques-star::after {
+    content: '\e62a';
+  }
+   // 备注
+   .anticon-ques-memo::after {
+    content: '\e62d';
+  }
+   // 自增
+   .anticon-ques-auto-add::after {
+    content: '\e62e';
+  }
+  /* *******************工作流控件模版图标结束*********************** */
+
+  // 流程复制
+  .anticon-flow-copy::after {
+    content: '\e706';
+  }
+
+  // 流程返回
+  .anticon-flow-back::after {
+    content: '\e704';
+  }
+
+  .anticon-ques-copy::after {
+    content: '\e628';
+  }
+
+  .anticon-qr-code::after {
+    content: '\e62f';
+  }
+
+  .ant-btn {
+    box-shadow: 0 0 0;
+    text-shadow: 0 0 0;
+  }
+}
