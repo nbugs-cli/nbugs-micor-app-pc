@@ -1,6 +1,6 @@
 {
-  "name": "nbugs-web-cooperative-office-manage",
-  "version": "0.0.234",
+  "name": "nbugs-web-demo",
+  "version": "0.0.1",
   "description": "An out-of-box UI solution for enterprise applications",
   "private": true,
   "scripts": {

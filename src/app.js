@@ -1,4 +1,5 @@
-import { history, getDvaApp } from "umi";
+import { getDvaApp } from "umi";
+import './public-path';
 import routes from "../config/router.config";
 
 let timer;
