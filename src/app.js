@@ -48,22 +48,6 @@ function dispatchState(value) {
 }
 /* eslint-disable import/prefer-default-export */
 export const qiankun = {
-  master: {
-    // 注册子应用信息
-    apps: [
-      {
-        name: "read-statistics", // 唯一 id
-        entry: "//localhost:8011", // html entry
-        path: "/readStatistics"
-      },
-      {
-        name: "work-flow", // 唯一 id
-        entry: "//localhost:8012", // html entry
-        path: "/workflow"
-      }
-    ]
-  },
-  // slave: {},
 
   // 应用加载之前
   async bootstrap(props) {
@@ -72,25 +56,22 @@ export const qiankun = {
   // 应用 render 之前触发
   async mount(props) {
     if (!props) return;
-    const { MicroApp, onGlobalStateChange } = props;
-    if(MicroApp) {
-      window._micro_app = MicroApp;
-    }
+    const { onGlobalStateChange } = props;
     onGlobalStateChange((value /* , prev */) => {
-      console.log("oa-manager onGlobalStateChange", value);
+      console.log("demo-manager onGlobalStateChange", value);
       // 利用 redux 在全局挂载的 g_app.store，dispatch 全局事件。
       if (!getDvaApp) {
         return;
       }
       dispatchState(value);
     }, true);
-    console.log("oa-manager mount", props);
+    console.log("demo-manager mount", props);
     // 应用挂载之后刷新一下，解决 popState 回调函数没有被调用到导致 history 没更新的问题
     // const { pathname, search, hash } = window.location;
     // history.replace(pathname + search + hash);
   },
   // 应用卸载之后触发
   async unmount(props) {
-    console.log("oa-manager unmount", props);
+    console.log("demo-manager unmount", props);
   }
 };
