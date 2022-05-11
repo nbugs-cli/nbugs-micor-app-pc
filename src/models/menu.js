@@ -234,7 +234,7 @@ export default {
       });
 
       yield put({
-        type: "global",
+        type: "global/save",
         payload: {
           collapsed,
           childrenList:
