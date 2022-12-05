@@ -1,5 +1,6 @@
 import axios from "axios";
 import { message } from "antd";
+import fileDownload from 'js-file-download';
 import { gotoLogin } from "./utils";
 
 export default async function request(url, options = {}) {
@@ -31,6 +32,34 @@ export default async function request(url, options = {}) {
         const {response} = error || {};
         const {data} = response || {};
         return reject(data || {});
+      });
+  });
+}
+
+export function downLoadRequest(thisUrl, options = {}, fileName) {
+  return new Promise((resolve, reject) => {
+    return axios({
+      url: thisUrl,
+      withCredentials: true,
+      ...options,
+      responseType: 'blob', // 没有该参数下载的文件会损坏
+    })
+      .then(response => {
+        const { data, status } = response;
+
+        if (status !== 200) {
+          message.error(`操作失败：${data && data.msg}`);
+          return reject(data);
+        }
+
+        // 下载的数据  文件名称
+        fileDownload(data, fileName);
+        return resolve(true);
+      })
+      .catch(response => {
+        const { data } = response;
+        message.error(`操作失败：${data && data.msg}`);
+        return reject(data);
       });
   });
 }

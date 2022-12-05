@@ -49,14 +49,11 @@ const BreadcrumbView = route => {
         <Breadcrumb.Item>
           <a
             onClick={() => {
-              console.log('route---',route);
               if(typeof route.onBack === 'function') {
                 route.onBack();
                 return;
               }
-              console.log('history----',history);
-              history.goBack();
-              // window.history.go(-1);
+              window.history.go(-1);
             }}
             className={styles['breadcrumb-go-back']}
           >

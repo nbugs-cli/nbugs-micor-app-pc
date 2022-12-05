@@ -1,25 +1,27 @@
-import React, { PureComponent, Suspense } from 'react';
-import { Layout } from 'antd';
-import { connect } from 'umi';
-import classNames from 'classnames';
-import styles from './index.less';
-import PageLoading from '../PageLoading';
-import { getDefaultCollapsedSubMenus } from './SiderMenuUtils';
+import React, { PureComponent, Suspense } from "react";
+import { Layout } from "antd";
+import { connect } from "umi";
+import classNames from "classnames";
+import styles from "./index.less";
+import PageLoading from "../PageLoading";
+import { getDefaultCollapsedSubMenus } from "./SiderMenuUtils";
+import { isExtraUrl } from "../_utils/pathTools";
 
-const BaseMenu = React.lazy(() => import('./BaseMenu'));
+const BaseMenu = React.lazy(() => import("./BaseMenu"));
 const { Sider } = Layout;
 
 let firstMount = true;
 @connect(({ user, global }) => ({
   ...global,
   childrenList: global.childrenList || [],
-  currentUser: user.currentUser,
+  currentUser: user.currentUser
 }))
 class SiderMenu extends PureComponent {
   constructor(props) {
     super(props);
+
     this.state = {
-      openKeys: getDefaultCollapsedSubMenus(props),
+      openKeys: getDefaultCollapsedSubMenus(props)
     };
   }
 
@@ -28,12 +30,20 @@ class SiderMenu extends PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { pathname, flatMenuKeysLen } = state;
-    if (props.location.pathname !== pathname || props.flatMenuKeys.length !== flatMenuKeysLen) {
+    const { pathname, flatMenuKeysLen, search } = state;
+    // 如果是任务管理相关的路由，并且路由的query不同，pathname相同时，更新选中的keys数组
+    if (
+      props.location.pathname !== pathname ||
+      props.flatMenuKeys.length !== flatMenuKeysLen ||
+      (isExtraUrl(props.location.pathname) &&
+        props.location.search !== search &&
+        props.location.pathname === pathname)
+    ) {
       return {
         pathname: props.location.pathname,
+        search: props.location.search,
         flatMenuKeysLen: props.flatMenuKeys.length,
-        openKeys: getDefaultCollapsedSubMenus(props),
+        openKeys: getDefaultCollapsedSubMenus(props)
       };
     }
     return null;
@@ -49,24 +59,27 @@ class SiderMenu extends PureComponent {
     });
   };
 
+  // 父菜单展开时change事件
   handleOpenChange = openKeys => {
-    const moreThanOne = openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
+    // const moreThanOne =
+    //   openKeys.filter(openKey => this.isMainMenu(openKey)).length > 1;
     this.setState({
-      openKeys: moreThanOne ? [openKeys.pop()] : [...openKeys],
+      openKeys: [...openKeys]
     });
   };
 
-  handleSaveMenu = (menuItem) => {
-    const childrenList = menuItem && menuItem.children || [];
+  handleSaveMenu = menuItem => {
+    const childrenList = (menuItem && menuItem.children) || [];
     if (childrenList && childrenList.length > 0) {
+      // eslint-disable-next-line react/destructuring-assignment
       this.props.dispatch({
-        type: 'global/save',
+        type: "global/save",
         payload: {
-          childrenList,
+          childrenList
         }
-      })
+      });
     }
-  }
+  };
 
   render() {
     const { collapsed, fixSiderbar, theme } = this.props;
@@ -75,7 +88,7 @@ class SiderMenu extends PureComponent {
 
     const siderClassName = classNames(styles.sider, {
       [styles.fixSiderBar]: fixSiderbar,
-      [styles.light]: theme === 'light',
+      [styles.light]: theme === "light"
     });
 
     return (
@@ -91,7 +104,7 @@ class SiderMenu extends PureComponent {
       >
         <Suspense fallback={<PageLoading />}>
           <BaseMenu
-            className={styles['suspense-menu']}
+            className={styles["suspense-menu"]}
             {...this.props}
             mode="inline"
             callbackSaveMenu={this.handleSaveMenu}

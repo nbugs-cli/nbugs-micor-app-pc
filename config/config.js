@@ -44,8 +44,7 @@ const getTrunks = env => {
 };
 
 export default {
-  devtool: false,
-  esbuild: {},
+  devtool: 'cheap-module-source-map',
   publicPath: getPublishPath(process.env),
   base: "/",
   antd: {},
@@ -57,7 +56,7 @@ export default {
     exclude: []
   },
   fastRefresh: {},
-  chunks: getTrunks(process.env),
+  // chunks: getTrunks(process.env),
 
   locale: {
     default: "zh-CN",

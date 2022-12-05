@@ -1,4 +1,4 @@
-import demo from "./demo";
+import afterclass from "./demo";
 
 export default [
   {
@@ -6,12 +6,7 @@ export default [
     component: "../layouts/BasicLayout",
     Routes: ["src/pages/Authorized"],
     routes: [
-      {
-        breadcrumbName: "首页",
-        path: "/",
-        component: "./Home/Index/index"
-      },
-      demo,
+      afterclass,
       {
         component: "./Home/404"
       }

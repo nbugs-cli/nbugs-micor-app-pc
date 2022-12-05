@@ -1,5 +1,5 @@
-import pathToRegexp from 'path-to-regexp';
-import { urlToList } from '../_utils/pathTools';
+import pathToRegexp from "path-to-regexp";
+import { urlToList, isExtraUrl } from "../_utils/pathTools";
 
 /**
  * Recursively flatten the data
@@ -17,24 +17,25 @@ export const getFlatMenuKeys = menuData => {
   return keys;
 };
 
-export const getMenuMatches = (flatMenuKeys, path) =>
-  flatMenuKeys.filter(item => {
+export const getMenuMatches = (flatMenuKeys, path) => {
+  return flatMenuKeys.filter(item => {
     if (item) {
-      return pathToRegexp(item).test(path);
+      // 如果不是需要额外做处理的路由，将其query删除后再正则校验
+      return pathToRegexp(
+        isExtraUrl(window.location.pathname) ? item : item.split("?")[0]
+      ).test(path);
     }
     return false;
   });
+};
 /**
  * 获得菜单子节点
  * @memberof SiderMenu
  */
 export const getDefaultCollapsedSubMenus = props => {
-  const {
-    location: { pathname },
-    flatMenuKeys,
-  } = props;
-  return urlToList(pathname)
+  const { location, flatMenuKeys } = props;
+  return urlToList(location)
     .map(item => getMenuMatches(flatMenuKeys, item)[0])
     .filter(item => item)
-    .reduce((acc, curr) => [...acc, curr], ['/']);
+    .reduce((acc, curr) => [...acc, curr], ["/"]);
 };

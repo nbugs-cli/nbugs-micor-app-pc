@@ -1,10 +1,11 @@
-import memoizeOne from "memoize-one";
-import isEqual from "lodash/isEqual";
-import queryString from "query-string";
-import { history, formatMessage } from "umi";
-import Authorized from "../utils/Authorized";
-import { menu } from "../defaultSettings";
-import { getMenuData } from "../services/menu";
+import memoizeOne from 'memoize-one';
+import isEqual from 'lodash/isEqual';
+import queryString from 'query-string';
+import { history, formatMessage } from 'umi';
+import store from 'store2';
+import Authorized from '../utils/Authorized';
+import { menu } from '../defaultSettings';
+import { getMenuData } from '../services/menu';
 
 const { check } = Authorized;
 const query = queryString.parse(window.location.search);
@@ -14,7 +15,11 @@ let currentMenuArr = [];
 function currentMenuData(data) {
   data.forEach(item => {
     if (flag) {
-      if (item.path === `/${query?.parentUri.split("/")[1]}`) {
+      let parentUri = `/${query?.parentUri.split('/')[1]}`;
+      if (store.session('parentUri').indexOf(parentUri) < 0) {
+        parentUri = store.session('parentUri');
+      }
+      if (item.path === parentUri) {
         flag = false;
         currentMenuArr = item;
       }
@@ -32,7 +37,7 @@ function formatter(data, parentAuthority, parentName) {
         return null;
       }
 
-      let locale = "menu";
+      let locale = 'menu';
       if (parentName) {
         locale = `${parentName}.${item.name}`;
       } else {
@@ -137,9 +142,9 @@ const filterRoutes = (serverMenus, localMenus) => {
       if (!newIcon) {
         newIcon = localMenuItem.icon;
       }
-      if (!newIcon) {
-        newIcon = "bars";
-      }
+      // if (!newIcon) {
+      //   newIcon = "bars";
+      // }
 
       if (serverMenuItem.subMenus && serverMenuItem.subMenus.length > 0) {
         return {
@@ -149,7 +154,8 @@ const filterRoutes = (serverMenus, localMenus) => {
           parentId: serverMenuItem.parentMenuId,
           name: serverMenuItem.menuName,
           path: serverMenuItem.url,
-          routes: filterRoutes(serverMenuItem.subMenus, localMenuItem.routes)
+          routes: filterRoutes(serverMenuItem.subMenus, localMenuItem.routes),
+          menuId: serverMenuItem.menuId // 新增代码
         };
       }
 
@@ -159,14 +165,15 @@ const filterRoutes = (serverMenus, localMenus) => {
         parentId: serverMenuItem.parentMenuId,
         icon: newIcon,
         name: serverMenuItem.menuName,
-        path: serverMenuItem.url
+        path: serverMenuItem.url,
+        menuId: serverMenuItem.menuId // 新增代码
       };
     })
     .filter(q => q);
 };
 
 export default {
-  namespace: "menu",
+  namespace: 'menu',
 
   state: {
     menuData: [],
@@ -180,10 +187,10 @@ export default {
 
       let { menus } = yield call(getMenuData);
       if (menus.length === 0) {
-        history.replace("/");
+        history.replace('/');
       } else {
         menus = menus?.filter(item => {
-          if (item.routeSign === "v2") {
+          if (item.routeSign === 'v2') {
             return item;
           }
         });
@@ -205,14 +212,14 @@ export default {
       }
 
       yield put({
-        type: "save",
+        type: 'save',
         payload: { menuData, breadcrumbNameMap, routerData: newRoutes }
       });
     },
     *setMenuData({ payload }, { put }) {
       const { routes, menus, collapsed, activeMenuIndex } = payload;
       if (menus.length === 0) {
-        history.replace("/");
+        history.replace('/');
       }
       const newRoutes = filterRoutes(menus, routes);
       const originalMenuData = memoizeOneFormatter(newRoutes);
@@ -229,12 +236,11 @@ export default {
       }
 
       yield put({
-        type: "save",
+        type: 'save',
         payload: { menuData, breadcrumbNameMap, routerData: newRoutes }
       });
-
       yield put({
-        type: "global/save",
+        type: 'global/save',
         payload: {
           collapsed,
           childrenList:
@@ -248,14 +254,14 @@ export default {
       if (Object.keys(breadcrumbNameMap).length === 0) {
         return;
       }
-      const pathnameArr = pathname.split("/").filter(q => q);
+      const pathnameArr = pathname.split('/').filter(q => q);
       if (pathnameArr.length === 0) {
         window.location.reload();
         return;
       }
 
       const last = pathnameArr[pathnameArr.length - 1];
-      const home = last.indexOf("home") === 0;
+      const home = last.indexOf('home') === 0;
       if (!home) {
         window.location.reload();
       }

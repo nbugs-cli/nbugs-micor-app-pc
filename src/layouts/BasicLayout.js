@@ -1,17 +1,21 @@
 /* eslint-disable import/extensions */
 import React from "react";
-import { Layout, Modal } from "antd";
+import { ConfigProvider, Layout } from "antd";
 import DocumentTitle from "react-document-title";
 import { connect } from "umi";
 import { ContainerQuery } from "react-container-query";
 import classNames from "classnames";
 import Media from "react-media";
+import zhCN from "antd/es/locale/zh_CN";
+import moment from "moment";
+import "moment/dist/locale/zh-cn";
 import SiderMenu from "@/antd-pro-components/SiderMenu";
 import getPageTitle from "@/utils/getPageTitle";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Context from "./MenuContext";
-import { gotoLogin } from "../services/utils";
 import styles from "./BasicLayout.less";
+
+moment.locale("zh-cn");
 
 const query = {
   "screen-xs": {
@@ -39,29 +43,6 @@ const query = {
 };
 
 class BasicLayout extends React.Component {
-  componentDidMount() {
-    // TODO: 在微前端生命周期中透传这些值
-    // const {
-    //   dispatch,
-    //   route: { routes, authority },
-    // } = this.props;
-    // dispatch({
-    //   type: 'selectSchool/fetchSchools',
-    // }).then(() => {
-    //   dispatch({
-    //     type: 'user/fetchCurrent',
-    //   }).then(() => {
-    //     dispatch({
-    //       type: 'menu/getMenuData',
-    //       payload: { routes, authority },
-    //     });
-    //     dispatch({
-    //       type: 'setting/getSetting',
-    //     });
-    //   });
-    // });
-  }
-
   getContext() {
     const { location, breadcrumbNameMap } = this.props;
     return {
@@ -88,29 +69,6 @@ class BasicLayout extends React.Component {
     });
   };
 
-  handleMenuClick = ({ key }) => {
-    const { dispatch } = this.props;
-    if (key === "selectSchool") {
-      gotoLogin("", !0);
-      return;
-    }
-    if (key === "logout") {
-      Modal.confirm({
-        title: "是否确认退出平台",
-        okText: "确认",
-        cancelText: "取消",
-        onOk() {
-          dispatch({
-            type: "login/logout"
-          });
-        },
-        onCancel() {
-          console.log("Cancel");
-        }
-      });
-    }
-  };
-
   render() {
     const {
       navTheme,
@@ -131,20 +89,10 @@ class BasicLayout extends React.Component {
     const isTop = PropsLayout === "topmenu";
     const isHome = window.location.pathname === "/";
 
-    // 工作流界面配置
-    const workFlowPage =
-      window.location.href.indexOf("/v2/workFlow") > -1 ||
-      window.location.href.indexOf("/v2/iframe/workFlow") > -1;
-    const workFlowStyle = workFlowPage ? { background: "#fff" } : {};
     const layout = (
       <div className="wrapper">
         <Layout className={styles["wrapper-layout"]}>
-          <Layout
-            className="wrapper-layout-body"
-            style={{
-              ...workFlowStyle
-            }}
-          >
+          <Layout className="wrapper-layout-body">
             {(isTop && !isMobile) || isHome ? null : (
               <SiderMenu
                 className={styles["home-sider"]}
@@ -165,29 +113,31 @@ class BasicLayout extends React.Component {
       </div>
     );
     return (
-      <React.Fragment>
-        <DocumentTitle
-          title={
-            getPageTitle(pathname, breadcrumbNameMap) ||
-            currentUser.schoolName ||
-            ""
-          }
-        >
-          <ContainerQuery query={query}>
-            {params => (
-              <Context.Provider value={this.getContext()}>
-                <div
-                  style={{ overflowX: "auto", height: "100%" }}
-                  id="width-scroll-container"
-                  className={classNames(params)}
-                >
-                  {layout}
-                </div>
-              </Context.Provider>
-            )}
-          </ContainerQuery>
-        </DocumentTitle>
-      </React.Fragment>
+      <ConfigProvider locale={zhCN}>
+        <React.Fragment>
+          <DocumentTitle
+            title={
+              getPageTitle(pathname, breadcrumbNameMap) ||
+              currentUser.schoolName ||
+              ""
+            }
+          >
+            <ContainerQuery query={query}>
+              {params => (
+                <Context.Provider value={this.getContext()}>
+                  <div
+                    style={{ overflowX: "auto", height: "100%" }}
+                    id="width-scroll-container"
+                    className={classNames(params)}
+                  >
+                    {layout}
+                  </div>
+                </Context.Provider>
+              )}
+            </ContainerQuery>
+          </DocumentTitle>
+        </React.Fragment>
+      </ConfigProvider>
     );
   }
 }

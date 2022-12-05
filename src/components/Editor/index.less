@@ -1,0 +1,38 @@
+.root {
+  display: flex;
+  :global {
+    .span5 {
+      width: 390px;
+      margin-right: 10px;
+      .nav-tabs {
+        display: flex;
+        border: 1px solid #ddd;
+        border-bottom: none;
+        padding: 0;
+        text-align: center;
+        > li {
+          flex: 1;
+          list-style: none;
+          a {
+            color: #888;
+          }
+        }
+        > li.active {
+          a {
+            color: #1785EC;
+          }
+        }
+      }
+    }
+    .span7 {
+      flex: 1;
+      .edui-default .edui-toolbar .edui-menubutton .edui-state-opened .edui-menubutton-body {
+        height: 28px;
+      }
+      .edui-default .edui-toolbar .edui-splitbutton .edui-splitbutton-body,
+      .edui-default .edui-toolbar .edui-menubutton .edui-menubutton-body {
+        height: 28px;
+      }
+    }
+  }
+}

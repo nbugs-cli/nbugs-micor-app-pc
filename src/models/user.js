@@ -1,6 +1,5 @@
 import store from 'store2';
 import { queryCurrent } from '@/services/user';
-import { ENV, funVerifySuccess } from '@/services/utils';
 
 const getInitState = () => ({
   list: [],
